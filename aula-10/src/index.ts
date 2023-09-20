@@ -12,6 +12,7 @@ type PetResult = {
 
 app.get("/pets/owner/:ownerName", async (req: Request, res: Response) => {
   const { ownerName } = req.params;
+  console.log(ownerName)
   try {
     const result = await prisma.$queryRaw<PetResult>(
       Prisma.sql`
@@ -20,11 +21,11 @@ app.get("/pets/owner/:ownerName", async (req: Request, res: Response) => {
         pet.name AS pet, 
         pet.type AS animal  
       FROM 
-        person as p 
+        people as p 
       LEFT JOIN 
         pet as pet
       ON
-        p.id = pet.personId
+        p.id = pet."personId"
       WHERE  
        p.name = ${ownerName}`
     ); 
